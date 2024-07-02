@@ -8,7 +8,8 @@
       <p>Condiciones: {{ weather.weather[0].description }}</p>
       <p>Humedad: {{ weather.main.humidity }}%</p>
       <p>Coordenadas: [{{ weather.coord.lat }}, {{ weather.coord.lon }}]</p>
-      <ion-button @click="goBack">Ir a inicio</ion-button>
+      <go-back-button />
+      <ion-button @click="goToHourlyForecast">Pronóstico por hora</ion-button>
     </ion-card-content>
   </ion-card>
   <ion-card v-else>
@@ -22,6 +23,7 @@
 import { defineComponent } from 'vue';
 import { getWeatherDetails } from '@/services/index';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/vue';
+import GoBackButton from './goBackButton.vue';
 
 export default defineComponent({
   name: 'WeatherDetails',
@@ -30,7 +32,8 @@ export default defineComponent({
     IonCardContent,
     IonButton,
     IonCardHeader,
-    IonCardTitle
+    IonCardTitle,
+    GoBackButton,
   },
   props: {
     city: {
@@ -51,8 +54,8 @@ export default defineComponent({
         console.error('Error fetching weather details:', error);
       }
     },
-    goBack() {
-      this.$router.push('/home');
+    goToHourlyForecast() {
+      this.$router.push({ path: '/hourly-forecast', query: { city: this.city } });
     },
   },
   created() {
