@@ -1,16 +1,27 @@
 <template>
-  <div>
-    <input type="text" v-model="cityName" placeholder="Ingrese el nombre de la ciudad" />
-    <button @click="searchCity">Buscar</button>
-  </div>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-input v-model="cityName" placeholder="Ingrese el nombre de la ciudad"></ion-input>
+      </ion-item>
+      <ion-button @click="searchCity">Buscar</ion-button>
+    </ion-card-content>
+  </ion-card>
 </template>
 
 <script lang="ts">
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
+import { IonCard, IonCardContent, IonItem, IonInput, IonButton } from '@ionic/vue';
 
 export default defineComponent({
   name: 'CityInput',
+  components: {
+    IonCard,
+    IonCardContent,
+    IonItem,
+    IonInput,
+    IonButton
+  },
   data() {
     return {
       cityName: '',
@@ -18,12 +29,15 @@ export default defineComponent({
   },
   methods: {
     searchCity() {
-      this.$emit('city-selected', this.cityName);
+      if (this.cityName.trim() !== '') {
+        this.$emit('city-selected', this.cityName);
+      } else {
+        alert('Por favor, ingrese el nombre de una ciudad.');
+      }
     },
   },
 });
 </script>
 
 <style scoped>
-
 </style>
