@@ -10,8 +10,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 import { IonCard, IonCardContent, IonItem, IonInput, IonButton } from '@ionic/vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'CityInput',
@@ -35,7 +36,16 @@ export default defineComponent({
         alert('Por favor, ingrese el nombre de una ciudad.');
       }
     },
+    clearCity() {
+      this.cityName = '';
+    }
   },
+  mounted() {
+    const route = useRoute();
+    watch(() => route.path, () => {
+      this.clearCity();
+    });
+  }
 });
 </script>
 
