@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 import WeatherDetails from '../components/WeatherDetails.vue';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 
@@ -30,6 +30,25 @@ export default defineComponent({
     return {
       city: this.$route.query.city || '',
     };
+  },
+  watch: {
+    '$route.query.city': {
+      immediate: true,
+      handler(newCity) {
+        this.city = newCity || '';
+      },
+    },
+  },
+  methods: {
+    clearCity() {
+      this.city = '';
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.path === '/home') {
+      this.clearCity();
+    }
+    next();
   },
 });
 </script>
