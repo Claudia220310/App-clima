@@ -1,57 +1,54 @@
 <template>
-    <div v-if="forecast && forecast.list">
-      <div v-for="hour in forecast.list" :key="hour.dt" class="hourly-forecast">
-        <h2>{{ new Date(hour.dt * 1000).toLocaleTimeString() }}</h2>
-        <p>Temperatura: {{ hour.main.temp }} °C</p>
-        <p>Condiciones: {{ hour.weather[0].description }}</p>
-        <p>Humedad: {{ hour.main.humidity }}%</p>
+  <ion-card v-if="forecast">
+    <ion-card-header>
+      <ion-card-title>Pronóstico por hora para {{ city }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div v-for="item in forecast.list" :key="item.dt">
+        <p>{{ new Date(item.dt * 1000).toLocaleTimeString() }} - {{ item.main.temp }} °C - {{ item.weather[0].description }}</p>
       </div>
-      <go-back-button />
-    </div>
-    <div v-else>
-      <p>Cargando pronóstico por hora...</p>
-    </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-card v-else>
+    <ion-card-content>
+      <p>Cargando pronóstico...</p>
+    </ion-card-content>
+  </ion-card>
 </template>
-  
+
 <script lang="ts">
-  import { defineComponent } from 'vue';
-  import { getHourlyForecast } from '@/services/index';
-  import GoBackButton from './goBackButton.vue';
-  
-  export default defineComponent({
-    name: 'HourlyForecast',
-    components: {
-      GoBackButton,
+import { defineComponent } from 'vue';
+import { getHourlyForecast } from '@/services/index';
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/vue';
+
+export default defineComponent({
+  name: 'HourlyForecast',
+  components: {
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
+  },
+  data() {
+    return {
+      city: this.$route.query.city || '',
+      forecast: null,
+    };
+  },
+  methods: {
+    async fetchHourlyForecast() {
+      try {
+        this.forecast = await getHourlyForecast(this.city);
+      } catch (error) {
+        console.error('Error fetching hourly forecast:', error);
+      }
     },
-    props: {
-      city: {
-        type: String,
-        required: true,
-      },
-    },
-    data() {
-      return {
-        forecast: null,
-      };
-    },
-    methods: {
-      async fetchHourlyForecast() {
-        try {
-          this.forecast = await getHourlyForecast(this.city);
-        } catch (error) {
-          console.error('Error fetching hourly forecast:', error);
-        }
-      },
-    },
-    created() {
-      this.fetchHourlyForecast();
-    },
-  });
+  },
+  created() {
+    this.fetchHourlyForecast();
+  },
+});
 </script>
-  
+
 <style scoped>
-  .hourly-forecast {
-    margin-bottom: 20px;
-  }
 </style>
-  
