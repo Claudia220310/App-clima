@@ -54,4 +54,31 @@ export default defineComponent({
 </script>
 
 <style scoped>
+ion-header {
+  --background: #4a90e2;
+  --color: white;
+  text-align: center;
+}
+
+ion-toolbar {
+  --background: #4a90e2;
+}
+
+ion-title {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+ion-content {
+  --background: #f2f2f2;
+  padding: 20px;
+}
+
+ion-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>
