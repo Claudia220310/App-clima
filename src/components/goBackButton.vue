@@ -1,8 +1,8 @@
 <template>
     <ion-button @click="goBack">Ir a inicio</ion-button>
-  </template>
+</template>
   
-  <script lang="ts">
+<script lang="ts">
   import { defineComponent } from 'vue';
   import { IonButton } from '@ionic/vue';
   
@@ -17,8 +17,8 @@
       },
     },
   });
-  </script>
+</script>
   
-  <style scoped>
-  </style>
+<style scoped>
+</style>
   
