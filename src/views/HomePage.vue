@@ -8,7 +8,7 @@
     <ion-content>
       <ion-card>
         <ion-card-content>
-          <CityInput @city-selected="selectCity" />
+          <CityInput ref="cityInput" @city-selected="selectCity" />
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -40,6 +40,9 @@ export default defineComponent({
         alert("Por favor, ingrese el nombre de una ciudad.");
       }
     },
+  },
+  mounted() {
+    this.$refs.cityInput.clearCity();
   },
 });
 </script>
