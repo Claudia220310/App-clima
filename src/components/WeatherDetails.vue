@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch } from 'vue';
 import { getWeatherDetails } from '@/services/index';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/vue';
 import GoBackButton from './goBackButton.vue';
@@ -58,8 +58,15 @@ export default defineComponent({
       this.$router.push({ path: '/hourly-forecast', query: { city: this.city } });
     },
   },
-  created() {
-    this.fetchWeatherDetails();
+  watch: {
+    city: {
+      immediate: true,
+      handler(newCity) {
+        if (newCity) {
+          this.fetchWeatherDetails();
+        }
+      },
+    },
   },
 });
 </script>
